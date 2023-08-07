@@ -12,5 +12,5 @@ public class LostAnimal : Entity
     
     public virtual Animal Animal { get; set; }
     
-    public virtual Address address { get; set; }
+    public virtual Address Address { get; set; }
 }

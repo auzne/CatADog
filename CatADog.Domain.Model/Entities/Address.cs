@@ -1,6 +1,6 @@
 ﻿namespace CatADog.Domain.Model.Entities;
 
-public class Address
+public class Address : Entity
 {
     
 }

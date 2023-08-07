@@ -1,4 +1,6 @@
-﻿namespace CatADog.Domain.Model.Entities;
+﻿using System;
+
+namespace CatADog.Domain.Model.Entities;
 
 public class LostAnimal : Entity
 {

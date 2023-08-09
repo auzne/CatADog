@@ -10,5 +10,5 @@ public class AdoptedAnimal : Entity
     
     public virtual Animal Animal { get; set; }
     
-    // public virtual Adopter Adopter { get; set; }
+    public virtual Adopter Adopter { get; set; }
 }

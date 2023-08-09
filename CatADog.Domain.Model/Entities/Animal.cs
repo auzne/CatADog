@@ -1,11 +1,12 @@
 using System;
 using CatADog.Domain.Model.Enums;
+using CatADog.Domain.Model.ValueObjects;
 
 namespace CatADog.Domain.Model.Entities;
 
 public class Animal : Entity
 {
-    public virtual string Microchip { get; set; }
+    public virtual string? Microchip { get; set; }
     
     public virtual string Species { get; set; }
     
@@ -17,5 +18,5 @@ public class Animal : Entity
     
     public virtual bool Ccz { get; set; }
     
-    public virtual DateOnly? Age { get; set; }
+    public virtual Dates Dates { get; set; }
 }

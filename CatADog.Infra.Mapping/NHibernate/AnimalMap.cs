@@ -10,7 +10,7 @@ public class AnimalMap : ClassMap<Animal>
     {
         // primary key
         Id(x => x.Id).GeneratedBy.Native();
-        
+
         // fields
         Map(x => x.Microchip).Length(45).Nullable();
         Map(x => x.Species).Length(45).Not.Nullable();

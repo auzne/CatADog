@@ -9,12 +9,12 @@ public class LostAnimalMap : ClassMap<LostAnimal>
     {
         // primary key
         Id(x => x.Id).GeneratedBy.Native();
-        
+
         // fields
         Map(x => x.Date).Not.Nullable();
         Map(x => x.Found).Not.Nullable();
         Map(x => x.Approved).Not.Nullable();
-        
+
         // foreign keys
         References(x => x.Animal)
             .Column("AnimalId")

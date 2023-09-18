@@ -6,5 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj"/>
+    </ItemGroup>
+
 
 </Project>

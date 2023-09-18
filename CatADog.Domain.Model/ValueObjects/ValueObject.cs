@@ -9,33 +9,8 @@ namespace CatADog.Domain.Model.ValueObjects;
 // http://grabbagoft.blogspot.com/2007/06/generic-value-object-equality.html
 
 public abstract class ValueObject<T> : IEquatable<T>
-  where T : ValueObject<T>
+    where T : ValueObject<T>
 {
-    public override bool Equals(object obj)
-    {
-        if (obj == null)
-            return false;
-
-        var other = obj as T;
-
-        return Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        var fields = GetFields(this);
-
-        var startValue = 17;
-        var multiplier = 59;
-
-        return fields
-            .Select(field => field.GetValue(this))
-            .Where(value => value != null)
-            .Aggregate(
-                startValue,
-                    (current, value) => current * multiplier + value.GetHashCode());
-    }
-
     public virtual bool Equals(T other)
     {
         if (other == null)
@@ -60,10 +35,37 @@ public abstract class ValueObject<T> : IEquatable<T>
                     return false;
             }
             else if (!value1.Equals(value2))
+            {
                 return false;
+            }
         }
 
         return true;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+
+        var other = obj as T;
+
+        return Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        var fields = GetFields(this);
+
+        var startValue = 17;
+        var multiplier = 59;
+
+        return fields
+            .Select(field => field.GetValue(this))
+            .Where(value => value != null)
+            .Aggregate(
+                startValue,
+                (current, value) => current * multiplier + value.GetHashCode());
     }
 
     private static IEnumerable<FieldInfo> GetFields(object obj)
@@ -83,22 +85,16 @@ public abstract class ValueObject<T> : IEquatable<T>
         return fields;
     }
 
-    public static bool operator==(ValueObject<T> x, ValueObject<T> y)
+    public static bool operator ==(ValueObject<T> x, ValueObject<T> y)
     {
-        if (ReferenceEquals(x, y))
-        {
-            return true;
-        }
+        if (ReferenceEquals(x, y)) return true;
 
-        if (((object)x == null) || ((object)y == null))
-        {
-            return false;
-        }
+        if ((object)x == null || (object)y == null) return false;
 
         return x.Equals(y);
     }
 
-    public static bool operator!=(ValueObject<T> x, ValueObject<T> y)
+    public static bool operator !=(ValueObject<T> x, ValueObject<T> y)
     {
         return !(x == y);
     }

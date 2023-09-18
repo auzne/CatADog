@@ -9,10 +9,10 @@ public class ContactMap : ClassMap<Contact>
     {
         // primary key
         Id(x => x.Id).GeneratedBy.Native();
-        
+
         // fields
         Map(x => x.PhoneNumber).Not.Nullable();
-        
+
         // foreign keys
         References(x => x.Adopter)
             .Column("AdopterId")

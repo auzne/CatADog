@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentNHibernate" Version="3.2.1" />
+        <PackageReference Include="FluentNHibernate" Version="3.2.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj" />
+        <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj"/>
     </ItemGroup>
 
 </Project>

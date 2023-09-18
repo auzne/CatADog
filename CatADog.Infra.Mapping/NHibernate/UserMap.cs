@@ -9,7 +9,7 @@ public class UserMap : ClassMap<User>
     {
         // primary key
         Id(x => x.Id).GeneratedBy.Native();
-        
+
         // fields
         Map(x => x.UserName).Length(30).Not.Nullable();
         Map(x => x.Password).Length(128).Not.Nullable();

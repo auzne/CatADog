@@ -9,7 +9,7 @@ public class AdoptedAnimalMap : ClassMap<AdoptedAnimal>
     {
         // primary key
         Id(x => x.Id).GeneratedBy.Native();
-        
+
         // fields
         Map(x => x.Date).Not.Nullable();
         Map(x => x.Visited).Not.Nullable();
@@ -20,7 +20,7 @@ public class AdoptedAnimalMap : ClassMap<AdoptedAnimal>
             .Fetch.Join()
             .Not.LazyLoad()
             .Not.Nullable();
-        
+
         References(x => x.Adopter)
             .Column("AdopterId")
             .Fetch.Join()

@@ -9,7 +9,7 @@ public class AddressMap : ClassMap<Address>
     {
         // primary key
         Id(x => x.Id).GeneratedBy.Native();
-        
+
         // fields
         Map(x => x.Street).Length(100).Not.Nullable();
         Map(x => x.Number).Nullable();

@@ -2,15 +2,19 @@ using System;
 using System.Threading.Tasks;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Repositories;
+using CatADog.Domain.Validation;
 
 namespace CatADog.Domain.Services;
 
 public class CrudService<T> : QueryService<T> where T : IAggregateRoot
 {
-    public CrudService(IUnitOfWork unitOfWork)
+    public CrudService(IUnitOfWork unitOfWork, Validator<T> validator)
         : base(unitOfWork)
     {
+        Validator = validator;
     }
+
+    protected virtual Validator<T> Validator { get; }
 
     public virtual async Task InsertAsync(T entity)
     {

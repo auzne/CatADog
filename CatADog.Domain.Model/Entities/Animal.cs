@@ -3,7 +3,7 @@ using CatADog.Domain.Model.ValueObjects;
 
 namespace CatADog.Domain.Model.Entities;
 
-public class Animal : Entity
+public class Animal : Entity, IAggregateRoot
 {
     public virtual string? Microchip { get; set; }
 

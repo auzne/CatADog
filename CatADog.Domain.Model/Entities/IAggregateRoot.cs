@@ -1,5 +1,5 @@
 namespace CatADog.Domain.Model.Entities;
 
-public interface IEntity
+public interface IAggregateRoot : IEntity
 {
 }

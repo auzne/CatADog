@@ -1,6 +1,6 @@
 ﻿namespace CatADog.Domain.Model.Entities;
 
-public class Address : Entity
+public class Address : Entity, IAggregateRoot
 {
     public virtual string Street { get; set; }
 

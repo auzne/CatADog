@@ -1,6 +1,6 @@
 ﻿namespace CatADog.Domain.Model.Entities;
 
-public class Contact : Entity
+public class Contact : Entity, IAggregateRoot
 {
     public virtual string PhoneNumber { get; set; }
 

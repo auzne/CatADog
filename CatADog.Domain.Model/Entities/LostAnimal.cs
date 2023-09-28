@@ -2,7 +2,7 @@
 
 namespace CatADog.Domain.Model.Entities;
 
-public class LostAnimal : Entity
+public class LostAnimal : Entity, IAggregateRoot
 {
     public virtual DateOnly Date { get; set; }
 

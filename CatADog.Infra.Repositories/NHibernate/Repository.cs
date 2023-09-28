@@ -5,7 +5,7 @@ using NHibernate;
 
 namespace CatADog.Infra.Repositories.NHibernate;
 
-public class Repository<T> : QueryRepository<T>, IRepository<T> where T : IEntity
+public class Repository<T> : QueryRepository<T>, IRepository<T> where T : IAggregateRoot
 {
     public Repository(ISession session)
         : base(session)

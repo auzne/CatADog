@@ -1,6 +1,6 @@
 namespace CatADog.Domain.Model.Entities;
 
-public class User : Entity
+public class User : Entity, IAggregateRoot
 {
     public virtual string UserName { get; set; }
 

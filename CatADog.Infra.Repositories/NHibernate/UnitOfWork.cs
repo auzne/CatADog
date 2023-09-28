@@ -14,17 +14,17 @@ public class UnitOfWork : IUnitOfWork
         return new QueryRepository<T>(_session);
     }
 
-    public IRepository<T> GetRepository<T>() where T : IEntity
+    public IRepository<T> GetRepository<T>() where T : IAggregateRoot
     {
         return new Repository<T>(_session);
     }
 
-    public void Start()
+    public void StartTransaction()
     {
         _transaction = _session.BeginTransaction();
     }
 
-    public void Commit()
+    public void CommitTransaction()
     {
         if (_transaction == null) return;
 
@@ -33,7 +33,7 @@ public class UnitOfWork : IUnitOfWork
         _transaction = null;
     }
 
-    public void Rollback()
+    public void RollbackTransaction()
     {
         if (_transaction == null) return;
 

@@ -5,7 +5,7 @@ using CatADog.Domain.Repositories;
 
 namespace CatADog.Domain.Services;
 
-public class CrudService<T> : QueryService<T> where T : IEntity
+public class CrudService<T> : QueryService<T> where T : IAggregateRoot
 {
     public CrudService(IUnitOfWork unitOfWork)
         : base(unitOfWork)
@@ -18,13 +18,13 @@ public class CrudService<T> : QueryService<T> where T : IEntity
         {
             var repo = _unitOfWork.GetRepository<T>();
 
-            _unitOfWork.Start();
+            _unitOfWork.StartTransaction();
             await repo.InsertAsync(entity);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitTransaction();
         }
         catch (Exception)
         {
-            _unitOfWork.Rollback();
+            _unitOfWork.RollbackTransaction();
             throw;
         }
     }
@@ -35,13 +35,13 @@ public class CrudService<T> : QueryService<T> where T : IEntity
         {
             var repo = _unitOfWork.GetRepository<T>();
 
-            _unitOfWork.Start();
+            _unitOfWork.StartTransaction();
             await repo.UpdateAsync(entity);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitTransaction();
         }
         catch (Exception)
         {
-            _unitOfWork.Rollback();
+            _unitOfWork.RollbackTransaction();
             throw;
         }
     }
@@ -52,13 +52,13 @@ public class CrudService<T> : QueryService<T> where T : IEntity
         {
             var repo = _unitOfWork.GetRepository<T>();
 
-            _unitOfWork.Start();
+            _unitOfWork.StartTransaction();
             await repo.DeleteAsync(entity);
-            _unitOfWork.Commit();
+            _unitOfWork.CommitTransaction();
         }
         catch (Exception)
         {
-            _unitOfWork.Rollback();
+            _unitOfWork.RollbackTransaction();
             throw;
         }
     }

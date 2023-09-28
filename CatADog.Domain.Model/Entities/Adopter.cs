@@ -1,6 +1,6 @@
 ﻿namespace CatADog.Domain.Model.Entities;
 
-public class Adopter : Entity
+public class Adopter : Entity, IAggregateRoot
 {
     public virtual string FirstName { get; set; }
 

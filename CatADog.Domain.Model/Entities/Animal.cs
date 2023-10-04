@@ -18,4 +18,6 @@ public class Animal : Entity, IAggregateRoot
     public virtual bool Ccz { get; set; }
 
     public virtual Dates Dates { get; set; }
+
+    public virtual Adopter? Adopter { get; set; }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
@@ -8,8 +9,8 @@ namespace CatADog.Domain.Services;
 
 public class CrudService<T> : QueryService<T> where T : IAggregateRoot
 {
-    public CrudService(IUnitOfWork unitOfWork, Validator<T> validator)
-        : base(unitOfWork)
+    public CrudService(IUnitOfWork unitOfWork, IMapper mapper, Validator<T> validator)
+        : base(unitOfWork, mapper)
     {
         Validator = validator;
     }
@@ -20,15 +21,15 @@ public class CrudService<T> : QueryService<T> where T : IAggregateRoot
     {
         try
         {
-            var repo = _unitOfWork.GetRepository<T>();
+            var repo = UnitOfWork.GetRepository<T>();
 
-            _unitOfWork.StartTransaction();
+            UnitOfWork.StartTransaction();
             await repo.InsertAsync(entity);
-            _unitOfWork.CommitTransaction();
+            UnitOfWork.CommitTransaction();
         }
         catch (Exception)
         {
-            _unitOfWork.RollbackTransaction();
+            UnitOfWork.RollbackTransaction();
             throw;
         }
     }
@@ -37,15 +38,15 @@ public class CrudService<T> : QueryService<T> where T : IAggregateRoot
     {
         try
         {
-            var repo = _unitOfWork.GetRepository<T>();
+            var repo = UnitOfWork.GetRepository<T>();
 
-            _unitOfWork.StartTransaction();
+            UnitOfWork.StartTransaction();
             await repo.UpdateAsync(entity);
-            _unitOfWork.CommitTransaction();
+            UnitOfWork.CommitTransaction();
         }
         catch (Exception)
         {
-            _unitOfWork.RollbackTransaction();
+            UnitOfWork.RollbackTransaction();
             throw;
         }
     }
@@ -54,15 +55,15 @@ public class CrudService<T> : QueryService<T> where T : IAggregateRoot
     {
         try
         {
-            var repo = _unitOfWork.GetRepository<T>();
+            var repo = UnitOfWork.GetRepository<T>();
 
-            _unitOfWork.StartTransaction();
+            UnitOfWork.StartTransaction();
             await repo.DeleteAsync(entity);
-            _unitOfWork.CommitTransaction();
+            UnitOfWork.CommitTransaction();
         }
         catch (Exception)
         {
-            _unitOfWork.RollbackTransaction();
+            UnitOfWork.RollbackTransaction();
             throw;
         }
     }

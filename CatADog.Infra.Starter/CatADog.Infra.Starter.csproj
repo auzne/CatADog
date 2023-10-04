@@ -2,17 +2,17 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>disable</ImplicitUsings>
+        <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj"/>
-    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1"/>
     </ItemGroup>
 
+
+    <ItemGroup>
+        <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj"/>
+    </ItemGroup>
 
 </Project>

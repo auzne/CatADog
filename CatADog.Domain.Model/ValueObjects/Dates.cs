@@ -11,4 +11,6 @@ public class Dates : ValueObject<Dates>
     public virtual DateOnly Neutered { get; set; }
 
     public virtual DateOnly Vaccinated { get; set; }
+
+    public virtual DateOnly? Adoption { get; set; }
 }

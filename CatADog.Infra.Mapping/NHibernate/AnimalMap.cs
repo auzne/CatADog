@@ -18,14 +18,16 @@ public class AnimalMap : ClassMap<Animal>
         Map(x => x.Color).Length(45).Not.Nullable();
         Map(x => x.Sex).CustomType<Sex>().Not.Nullable();
         Map(x => x.Ccz).Not.Nullable();
+        Map(x => x.Adopter).CustomType<Adopter>().Nullable();
 
         // components
         Component(x => x.Dates, m =>
         {
-            m.Map(x => x.Age).Nullable();
-            m.Map(x => x.Dewormed).Not.Nullable();
-            m.Map(x => x.Neutered).Not.Nullable();
-            m.Map(x => x.Vaccinated).Not.Nullable();
+            m.Map(n => n.Age).Nullable();
+            m.Map(n => n.Dewormed).Not.Nullable();
+            m.Map(n => n.Neutered).Not.Nullable();
+            m.Map(n => n.Vaccinated).Not.Nullable();
+            m.Map(n => n.Adoption).Nullable();
         });
     }
 }

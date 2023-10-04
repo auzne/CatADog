@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Repositories;
 
@@ -9,22 +10,24 @@ namespace CatADog.Domain.Services;
 
 public class QueryService<T> where T : IEntity
 {
-    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IMapper Mapper;
+    protected readonly IUnitOfWork UnitOfWork;
 
-    public QueryService(IUnitOfWork unitOfWork)
+    public QueryService(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
+        UnitOfWork = unitOfWork;
+        Mapper = mapper;
     }
 
     public virtual Task<T> GetAsync(long id)
     {
-        var repo = _unitOfWork.GetQueryRepository<T>();
+        var repo = UnitOfWork.GetQueryRepository<T>();
         return repo.GetAsync(id);
     }
 
     public virtual Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> where)
     {
-        var repo = _unitOfWork.GetQueryRepository<T>();
+        var repo = UnitOfWork.GetQueryRepository<T>();
         return repo.GetAllAsync(where);
     }
 }

@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using CatADog.Domain.Model.Entities;
+using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
 
@@ -6,8 +10,25 @@ namespace CatADog.Domain.Services;
 
 public class AnimalService : CrudService<Animal>
 {
-    public AnimalService(IUnitOfWork unitOfWork, Validator<Animal> validator)
-        : base(unitOfWork, validator)
+    public AnimalService(
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        Validator<Animal> validator)
+        : base(unitOfWork, mapper, validator)
     {
+    }
+
+    public IList<AnimalListViewModel> GetAvailableForAdoption(int perPage, int offset)
+    {
+        var repo = UnitOfWork.GetQueryRepository<Animal>();
+
+        var query = repo.Query
+            .Where(x => x.Adopter != null);
+
+        var result = Mapper
+            .ProjectTo<AnimalListViewModel>(query)
+            .ToList();
+
+        return result;
     }
 }

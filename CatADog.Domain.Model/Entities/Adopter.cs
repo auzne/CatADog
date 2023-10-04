@@ -12,5 +12,7 @@ public class Adopter : Entity, IAggregateRoot
 
     public virtual string RG { get; set; }
 
+    public virtual string PhoneNumber { get; set; }
+
     public virtual Address Address { get; set; }
 }

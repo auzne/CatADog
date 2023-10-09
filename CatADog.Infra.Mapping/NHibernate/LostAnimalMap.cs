@@ -11,7 +11,7 @@ public class LostAnimalMap : ClassMap<LostAnimal>
         Id(x => x.Id).GeneratedBy.Native();
 
         // fields
-        Map(x => x.Date).Not.Nullable();
+        Map(x => x.Date).CustomSqlType("date").Not.Nullable();
         Map(x => x.Found).Not.Nullable();
         Map(x => x.Approved).Not.Nullable();
 

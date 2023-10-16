@@ -13,6 +13,7 @@ public class AnimalMap : ClassMap<Animal>
 
         // fields
         Map(x => x.Microchip).Length(45).Nullable();
+        Map(x => x.Name).Length(45).Not.Nullable();
         Map(x => x.Species).Length(45).Not.Nullable();
         Map(x => x.Race).Length(45).Not.Nullable();
         Map(x => x.Color).Length(45).Not.Nullable();
@@ -22,11 +23,11 @@ public class AnimalMap : ClassMap<Animal>
         // components
         Component(x => x.Dates, m =>
         {
-            m.Map(n => n.Age).CustomSqlType("date").Nullable();
-            m.Map(n => n.Dewormed).CustomSqlType("date").Not.Nullable();
-            m.Map(n => n.Neutered).CustomSqlType("date").Not.Nullable();
-            m.Map(n => n.Vaccinated).CustomSqlType("date").Not.Nullable();
-            m.Map(n => n.Adoption).CustomSqlType("date").Nullable();
+            m.Map(n => n.Age).Nullable();
+            m.Map(n => n.Dewormed).Not.Nullable();
+            m.Map(n => n.Neutered).Not.Nullable();
+            m.Map(n => n.Vaccinated).Not.Nullable();
+            m.Map(n => n.Adoption).Nullable();
         });
 
         // foreign keys

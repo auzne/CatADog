@@ -13,11 +13,12 @@ public class NHibernateHelper
 {
     private static ISessionFactory? _sessionFactory;
 
-    private static ISessionFactory CreateSessionFactory(bool createSchema = true)
+    private static ISessionFactory CreateSessionFactory()
     {
         if (_sessionFactory != null)
             return _sessionFactory;
 
+        var createSchema = Environment.GetEnvironmentVariable("CREATE_SCHEMA") != null;
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
 
         var sqliteFile = GetConnectionString(env, "SQLiteFile");

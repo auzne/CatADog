@@ -1,4 +1,6 @@
-﻿namespace CatADog.Domain.Model.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace CatADog.Domain.Model.Entities;
 
 public class Adopter : Entity, IAggregateRoot
 {
@@ -15,4 +17,6 @@ public class Adopter : Entity, IAggregateRoot
     public virtual string PhoneNumber { get; set; }
 
     public virtual Address Address { get; set; }
+
+    [JsonIgnore] public virtual string FullName => $"{FirstName} {LastName}";
 }

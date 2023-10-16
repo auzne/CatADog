@@ -6,7 +6,9 @@ public class AnimalListViewModel : IViewModel
 
     public string? Microchip { get; set; }
 
-    public virtual string Species { get; set; }
+    public string Name { get; set; }
+
+    public string Species { get; set; }
 
     public string Race { get; set; }
 

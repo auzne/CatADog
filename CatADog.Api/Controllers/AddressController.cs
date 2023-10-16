@@ -9,11 +9,11 @@ namespace CatADog.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AnimalController : ControllerBase
+public class AddressController : ControllerBase
 {
-    private readonly AnimalService _service;
+    private readonly AddressService _service;
 
-    public AnimalController(AnimalService service)
+    public AddressController(AddressService service)
     {
         _service = service;
     }
@@ -36,23 +36,8 @@ public class AnimalController : ControllerBase
         }
     }
 
-    [HttpGet("Paged/{page:int}/{itemsPerPage:int}")]
-    public async Task<IActionResult> GetPaged(int page, int itemsPerPage)
-    {
-        try
-        {
-            var result = await _service.GetPagedAsViewModelAsync(page, itemsPerPage);
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex);
-        }
-    }
-
     [HttpPost]
-    public async Task<IActionResult> InsertViewModel(AnimalFormViewModel viewModel)
+    public async Task<IActionResult> InsertViewModel(AddressFormViewModel viewModel)
     {
         try
         {
@@ -74,7 +59,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateViewModel([FromBody] AnimalFormViewModel viewModel, long id)
+    public async Task<IActionResult> UpdateViewModel([FromBody] AddressFormViewModel viewModel, long id)
     {
         try
         {

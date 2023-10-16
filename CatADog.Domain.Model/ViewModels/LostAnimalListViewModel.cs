@@ -6,7 +6,7 @@ public class LostAnimalListViewModel : IViewModel
 {
     public long Id { get; set; }
 
-    public DateTimeOffset Date { get; set; }
+    public DateTime Date { get; set; }
 
     public bool Found { get; set; }
 

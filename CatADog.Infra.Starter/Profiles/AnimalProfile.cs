@@ -13,6 +13,6 @@ public class AnimalProfile : Profile
         CreateMap<Animal, AnimalFormViewModel>()
             .ForMember(vm => vm.AdopterId, opt => opt.Ignore())
             .ReverseMap()
-            .AfterMap((vm, c) => { vm.AdopterId = c.Adopter?.Id ?? 0; });
+            .AfterMap((vm, c) => vm.AdopterId = c.Adopter?.Id ?? 0);
     }
 }

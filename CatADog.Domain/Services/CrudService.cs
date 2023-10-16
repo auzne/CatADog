@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using CatADog.Domain.Model.Entities;
+using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
 
@@ -34,6 +35,16 @@ public class CrudService<T> : QueryService<T> where T : IAggregateRoot
         }
     }
 
+    public virtual async Task<TVm> InsertViewModelAsync<TVm>(TVm viewModel)
+        where TVm : IViewModel
+    {
+        var entity = Mapper.Map<T>(viewModel);
+
+        await InsertAsync(entity);
+
+        return Mapper.Map<TVm>(entity);
+    }
+
     public virtual async Task UpdateAsync(T entity)
     {
         try
@@ -49,6 +60,16 @@ public class CrudService<T> : QueryService<T> where T : IAggregateRoot
             UnitOfWork.RollbackTransaction();
             throw;
         }
+    }
+
+    public virtual async Task<TVm> UpdateViewModelAsync<TVm>(TVm viewModel)
+        where TVm : IViewModel
+    {
+        var entity = Mapper.Map<T>(viewModel);
+
+        await UpdateAsync(entity);
+
+        return Mapper.Map<TVm>(entity);
     }
 
     public virtual async Task DeleteAsync(T entity)

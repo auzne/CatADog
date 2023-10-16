@@ -7,6 +7,8 @@ public class Animal : Entity, IAggregateRoot
 {
     public virtual string? Microchip { get; set; }
 
+    public virtual string Name { get; set; }
+
     public virtual string Species { get; set; }
 
     public virtual string Race { get; set; }

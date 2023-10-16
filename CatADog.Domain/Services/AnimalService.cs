@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.ViewModels;
@@ -30,5 +33,16 @@ public class AnimalService : CrudService<Animal>
             .ToList();
 
         return result;
+    }
+
+    public Task<IList<AnimalListViewModel>> GetPagedAsViewModelAsync(int page, int itemsPerPage)
+    {
+        return GetPagedAsViewModelAsync<AnimalListViewModel>(page, itemsPerPage);
+    }
+
+    public Task<IList<AnimalListViewModel>> GetPagedAsViewModelAsync(int page, int itemsPerPage,
+        Expression<Func<Animal, bool>> where)
+    {
+        return GetPagedAsViewModelAsync<AnimalListViewModel>(page, itemsPerPage, where);
     }
 }

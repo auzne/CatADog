@@ -4,7 +4,7 @@ namespace CatADog.Domain.Model.Entities;
 
 public class LostAnimal : Entity, IAggregateRoot
 {
-    public virtual DateOnly Date { get; set; }
+    public virtual DateTimeOffset Date { get; set; }
 
     public virtual bool Found { get; set; }
 

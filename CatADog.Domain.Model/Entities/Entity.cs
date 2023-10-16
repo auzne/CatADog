@@ -6,7 +6,7 @@ public abstract class Entity : IEquatable<Entity>, IEntity
 {
     public virtual long Id { get; set; }
 
-    public bool Equals(Entity? other)
+    public virtual bool Equals(Entity? other)
     {
         if (other == null) return false;
 

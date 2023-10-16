@@ -4,13 +4,13 @@ namespace CatADog.Domain.Model.ValueObjects;
 
 public class Dates : ValueObject<Dates>
 {
-    public virtual DateOnly? Age { get; set; }
+    public virtual DateTimeOffset? Age { get; set; }
 
-    public virtual DateOnly Dewormed { get; set; }
+    public virtual DateTimeOffset Dewormed { get; set; }
 
-    public virtual DateOnly Neutered { get; set; }
+    public virtual DateTimeOffset Neutered { get; set; }
 
-    public virtual DateOnly Vaccinated { get; set; }
+    public virtual DateTimeOffset Vaccinated { get; set; }
 
-    public virtual DateOnly? Adoption { get; set; }
+    public virtual DateTimeOffset? Adoption { get; set; }
 }

@@ -23,7 +23,7 @@ public class AnimalController : ControllerBase
         {
             var entity = await _service.GetAsync(id);
 
-            if (entity.Equals(default))
+            if (entity == null)
                 return NotFound();
 
             return Ok(entity);

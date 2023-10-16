@@ -15,16 +15,17 @@ public class NHibernateHelper
 
     private static ISessionFactory CreateSessionFactory(bool createSchema = true)
     {
-        if (_sessionFactory != null) return _sessionFactory;
+        if (_sessionFactory != null)
+            return _sessionFactory;
 
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
 
-        var connectionString = GetConnectionString(env);
-        if (connectionString == null)
-            throw new ArgumentException("Missing ConnectionString::SqlServer");
+        var sqliteFile = GetConnectionString(env, "SQLiteFile");
+        if (sqliteFile == null)
+            throw new ArgumentException("Missing ConnectionString::SQLiteFile");
 
-        var databaseConfiguration = MsSqlConfiguration
-            .MsSql2012.ConnectionString(connectionString);
+        var databaseConfiguration = SQLiteConfiguration
+            .Standard.UsingFile(sqliteFile);
 
         if (env.Trim().ToLower() == "development")
             databaseConfiguration.ShowSql();
@@ -46,7 +47,7 @@ public class NHibernateHelper
         return CreateSessionFactory().OpenSession();
     }
 
-    public static string? GetConnectionString(string env)
+    public static string? GetConnectionString(string env, string key)
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -54,6 +55,6 @@ public class NHibernateHelper
             .AddJsonFile($"appsettings.{env}.json", true)
             .Build();
 
-        return configuration.GetConnectionString("SqlServer");
+        return configuration.GetConnectionString(key);
     }
 }

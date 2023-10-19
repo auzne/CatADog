@@ -8,6 +8,8 @@ public class AddressProfile : Profile
 {
     public AddressProfile()
     {
+        CreateMap<Address, AddressListViewModel>();
+
         CreateMap<Address, AddressFormViewModel>()
             .ReverseMap();
     }

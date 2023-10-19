@@ -11,4 +11,6 @@ public class AdopterListViewModel : IViewModel
     public string CPF { get; set; }
 
     public string PhoneNumber { get; set; }
+
+    public long AddressId { get; set; }
 }

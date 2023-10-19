@@ -1,6 +1,7 @@
 using AutoMapper;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.ViewModels;
+using CatADog.Infra.Starter.Actions;
 
 namespace CatADog.Infra.Starter.Profiles;
 
@@ -12,6 +13,7 @@ public class AdopterProfile : Profile
 
         CreateMap<Adopter, AdopterFormViewModel>()
             .ForMember(vm => vm.AddressId, opt => opt.MapFrom(c => c.Address.Id))
-            .ReverseMap();
+            .ReverseMap()
+            .AfterMap<AdopterAction>();
     }
 }

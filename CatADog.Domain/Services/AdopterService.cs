@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.ValueObjects;
+using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
 
@@ -17,6 +18,11 @@ public class AdopterService : CrudService<Adopter>
         Validator<Adopter> validator)
         : base(unitOfWork, mapper, validator)
     {
+    }
+
+    public Task<AdopterListViewModel> GetAsViewModelAsync(long id)
+    {
+        return GetAsViewModelAsync<AdopterListViewModel>(id);
     }
 
     public Task<IList<DropDownItem<long>>> GetDropDownList()

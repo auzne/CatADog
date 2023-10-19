@@ -27,6 +27,12 @@ public class QueryService<T> where T : IEntity
         return repo.GetAsync(id);
     }
 
+    protected virtual async Task<TVm> GetAsViewModelAsync<TVm>(long id)
+    {
+        var entity = await GetAsync(id);
+        return Mapper.Map<TVm>(entity);
+    }
+
     public virtual Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> where)
     {
         var repo = UnitOfWork.GetQueryRepository<T>();

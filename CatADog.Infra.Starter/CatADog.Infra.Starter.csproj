@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj"/>
+        <ProjectReference Include="..\CatADog.Infra.Repositories\CatADog.Infra.Repositories.csproj"/>
     </ItemGroup>
 
 </Project>

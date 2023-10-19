@@ -1,9 +1,11 @@
 using System;
+using System.Data.SQLite;
 using System.Threading.Tasks;
 using CatADog.Domain.Model.Validation;
 using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using NHibernate.Exceptions;
 
 namespace CatADog.Api.Controllers;
 
@@ -23,12 +25,12 @@ public class AdopterController : ControllerBase
     {
         try
         {
-            var entity = await _service.GetAsync(id);
+            var viewModel = await _service.GetAsViewModelAsync(id);
 
-            if (entity == null)
+            if (viewModel == null)
                 return NotFound();
 
-            return Ok(entity);
+            return Ok(viewModel);
         }
         catch (Exception ex)
         {
@@ -106,9 +108,15 @@ public class AdopterController : ControllerBase
             if (entity == null)
                 return NotFound();
 
-            await DeleteAsync(id);
+            await _service.DeleteAsync(entity);
 
-            return Ok();
+            return NoContent();
+        }
+        catch (GenericADOException ex)
+        {
+            return ex.InnerException?.GetType() == typeof(SQLiteException)
+                ? BadRequest(ex.InnerException.Message)
+                : StatusCode(500, ex);
         }
         catch (Exception ex)
         {

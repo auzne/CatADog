@@ -35,6 +35,11 @@ public class AnimalService : CrudService<Animal>
         return result;
     }
 
+    public Task<AnimalListViewModel> GetAsViewModelAsync(long id)
+    {
+        return GetAsViewModelAsync<AnimalListViewModel>(id);
+    }
+
     public Task<IList<AnimalListViewModel>> GetPagedAsViewModelAsync(int page, int itemsPerPage)
     {
         return GetPagedAsViewModelAsync<AnimalListViewModel>(page, itemsPerPage);

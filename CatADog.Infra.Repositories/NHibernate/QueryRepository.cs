@@ -20,6 +20,11 @@ public class QueryRepository<T> : IQueryRepository<T> where T : IEntity
 
     public IQueryable<T> Query => Session.Query<T>();
 
+    public T Load(object id)
+    {
+        return Session.Load<T>(id);
+    }
+
     public Task<T> GetAsync(object id)
     {
         return Session.GetAsync<T>(id);

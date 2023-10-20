@@ -10,7 +10,10 @@ public class AnimalAction : UnitOfWork, IMappingAction<AnimalFormViewModel, Anim
     public void Process(AnimalFormViewModel vm, Animal c, ResolutionContext context)
     {
         if (vm.AdopterId <= 0)
+        {
+            c.Adopter = null;
             return;
+        }
 
         var repo = GetQueryRepository<Adopter>();
         c.Adopter = repo.Load(vm.AdopterId);

@@ -21,14 +21,7 @@ public class AnimalMap : ClassMap<Animal>
         Map(x => x.Ccz).Not.Nullable();
 
         // components
-        Component(x => x.Dates, m =>
-        {
-            m.Map(n => n.Age).Nullable();
-            m.Map(n => n.Dewormed).Not.Nullable();
-            m.Map(n => n.Neutered).Not.Nullable();
-            m.Map(n => n.Vaccinated).Not.Nullable();
-            m.Map(n => n.Adoption).Nullable();
-        });
+        Component(c => c.Dates);
 
         // foreign keys
         References(x => x.Adopter)

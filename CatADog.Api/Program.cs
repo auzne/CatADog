@@ -1,6 +1,8 @@
-using CatADog.Api.Start;
 using CatADog.Domain.Repositories;
+using CatADog.Domain.Services;
+using CatADog.Domain.Validation;
 using CatADog.Infra.Repositories.NHibernate;
+using CatADog.Infra.Starter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +23,22 @@ builder.Services.AddCors(options => options.AddPolicy("AllowAll", corsBuilder.Bu
 #endregion
 
 builder.Services.AddControllers();
-builder.Services.AddDomainServices();
+
+#region Services
+
+builder.Services.AddScoped(typeof(Validator<>));
+builder.Services.AddSingleton(AutoMapperHelper.GetMapper());
+builder.Services.AddScoped(typeof(QueryService<>));
+builder.Services.AddScoped(typeof(CrudService<>));
+
+// register services in CatADog.Domain.Services project
+builder.Services.Scan(scan => scan
+    .FromAssemblyOf<AnimalService>()
+    .AddClasses()
+    .AsSelf()
+    .WithScopedLifetime());
+
+#endregion
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

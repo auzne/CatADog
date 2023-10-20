@@ -1,3 +1,5 @@
+using CatADog.Domain.Model.Enums;
+
 namespace CatADog.Domain.Model.ViewModels;
 
 public class AnimalListViewModel : IViewModel
@@ -11,6 +13,12 @@ public class AnimalListViewModel : IViewModel
     public string Species { get; set; }
 
     public string Race { get; set; }
+
+    public virtual string Color { get; set; }
+
+    public virtual Sex Sex { get; set; }
+
+    public virtual bool Ccz { get; set; }
 
     public long AdopterId { get; set; }
 }

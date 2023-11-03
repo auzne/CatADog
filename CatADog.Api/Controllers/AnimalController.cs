@@ -1,8 +1,8 @@
 using System;
 using System.Data.SQLite;
 using System.Threading.Tasks;
+using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Validation;
-using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate.Exceptions;
@@ -21,16 +21,16 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public async Task<IActionResult> Get(long id)
+    public async Task<IActionResult> GetAsync(long id)
     {
         try
         {
-            var viewModel = await _service.GetAsViewModelAsync(id);
+            var entity = await _service.GetAsync(id);
 
-            if (viewModel == null)
+            if (entity == null)
                 return NotFound();
 
-            return Ok(viewModel);
+            return Ok(entity);
         }
         catch (Exception ex)
         {
@@ -39,11 +39,11 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet("Paged/{page:int}/{itemsPerPage:int}")]
-    public async Task<IActionResult> GetPaged(int page, int itemsPerPage)
+    public async Task<IActionResult> GetPagedAsync(int page, int itemsPerPage)
     {
         try
         {
-            var result = await _service.GetPagedAsViewModelAsync(page, itemsPerPage);
+            var result = await _service.GetPagedAsync(page, itemsPerPage);
 
             return Ok(result);
         }
@@ -54,16 +54,16 @@ public class AnimalController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> InsertViewModel(AnimalFormViewModel viewModel)
+    public async Task<IActionResult> PostAsync(Animal entity)
     {
         try
         {
-            viewModel = await _service.InsertViewModelAsync(viewModel);
+            entity = await _service.InsertAsync(entity);
 
             return CreatedAtAction(
                 "Get",
-                new { id = viewModel.Id },
-                viewModel);
+                new { id = entity.Id },
+                entity);
         }
         catch (ValidatorException ex)
         {
@@ -76,18 +76,18 @@ public class AnimalController : ControllerBase
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateViewModel([FromBody] AnimalFormViewModel viewModel, long id)
+    public async Task<IActionResult> PutAsync([FromBody] Animal entity, long id)
     {
         try
         {
-            var entity = await _service.GetAsync(id);
-            if (entity == null)
+            var fromDatabase = await _service.GetAsync(id);
+            if (fromDatabase == null)
                 return NotFound();
 
-            viewModel.Id = entity.Id;
-            viewModel = await _service.UpdateViewModelAsync(viewModel);
+            entity.Id = fromDatabase.Id;
+            entity = await _service.UpdateAsync(entity);
 
-            return Ok(viewModel);
+            return Ok(entity);
         }
         catch (ValidatorException ex)
         {

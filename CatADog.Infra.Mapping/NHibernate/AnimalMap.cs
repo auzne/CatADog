@@ -16,7 +16,7 @@ public class AnimalMap : ClassMap<Animal>
         Map(x => x.Name).Length(45).Not.Nullable();
         Map(x => x.Species).Length(45).Not.Nullable();
         Map(x => x.Race).Length(45).Not.Nullable();
-        Map(x => x.Color).Length(45).Not.Nullable();
+        Map(x => x.Color).Length(20).Not.Nullable();
         Map(x => x.Sex).CustomType<Sex>().Not.Nullable();
         Map(x => x.Ccz).Not.Nullable();
 

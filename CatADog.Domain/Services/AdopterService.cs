@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using CatADog.Domain.Model.Dtos;
 using CatADog.Domain.Model.Entities;
-using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
 
@@ -14,9 +12,8 @@ public class AdopterService : CrudService<Adopter>
 {
     public AdopterService(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
         Validator<Adopter> validator)
-        : base(unitOfWork, mapper, validator)
+        : base(unitOfWork, validator)
     {
     }
 
@@ -34,10 +31,5 @@ public class AdopterService : CrudService<Adopter>
             .OrderBy(o => o.Text);
 
         return Task.FromResult<IList<DropDownItem<long>>>(query.ToList());
-    }
-
-    public Task<AdopterListViewModel> GetAsViewModelAsync(long id)
-    {
-        return GetAsViewModelAsync<AdopterListViewModel>(id);
     }
 }

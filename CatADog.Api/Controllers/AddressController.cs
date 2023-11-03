@@ -1,8 +1,8 @@
 using System;
 using System.Data.SQLite;
 using System.Threading.Tasks;
+using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Validation;
-using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate.Exceptions;
@@ -21,16 +21,16 @@ public class AddressController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public async Task<IActionResult> Get(long id)
+    public async Task<IActionResult> GetAsync(long id)
     {
         try
         {
-            var viewModel = await _service.GetAsViewModelAsync(id);
+            var entity = await _service.GetAsync(id);
 
-            if (viewModel == null)
+            if (entity == null)
                 return NotFound();
 
-            return Ok(viewModel);
+            return Ok(entity);
         }
         catch (Exception ex)
         {
@@ -39,16 +39,16 @@ public class AddressController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> InsertViewModel(AddressFormViewModel viewModel)
+    public async Task<IActionResult> PostAsync(Address entity)
     {
         try
         {
-            viewModel = await _service.InsertViewModelAsync(viewModel);
+            entity = await _service.InsertAsync(entity);
 
             return CreatedAtAction(
                 "Get",
-                new { id = viewModel.Id },
-                viewModel);
+                new { id = entity.Id },
+                entity);
         }
         catch (ValidatorException ex)
         {
@@ -61,18 +61,18 @@ public class AddressController : ControllerBase
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateViewModel([FromBody] AddressFormViewModel viewModel, long id)
+    public async Task<IActionResult> PutAsync([FromBody] Address entity, long id)
     {
         try
         {
-            var entity = await _service.GetAsync(id);
-            if (entity == null)
+            var fromDatabase = await _service.GetAsync(id);
+            if (fromDatabase == null)
                 return NotFound();
 
-            viewModel.Id = entity.Id;
-            viewModel = await _service.UpdateViewModelAsync(viewModel);
+            entity.Id = fromDatabase.Id;
+            entity = await _service.UpdateAsync(entity);
 
-            return Ok(viewModel);
+            return Ok(entity);
         }
         catch (ValidatorException ex)
         {

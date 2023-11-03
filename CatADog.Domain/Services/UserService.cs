@@ -1,7 +1,4 @@
-using System.Threading.Tasks;
-using AutoMapper;
 using CatADog.Domain.Model.Entities;
-using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
 
@@ -11,14 +8,8 @@ public class UserService : CrudService<User>
 {
     public UserService(
         IUnitOfWork unitOfWork,
-        IMapper mapper,
         Validator<User> validator)
-        : base(unitOfWork, mapper, validator)
+        : base(unitOfWork, validator)
     {
-    }
-
-    public Task<UserListViewModel> GetAsViewModelAsync(long id)
-    {
-        return GetAsViewModelAsync<UserListViewModel>(id);
     }
 }

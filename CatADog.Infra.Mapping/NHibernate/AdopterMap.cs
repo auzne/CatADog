@@ -15,7 +15,7 @@ public class AdopterMap : ClassMap<Adopter>
         Map(x => x.LastName).Length(50).Not.Nullable();
         Map(x => x.Profession).Length(30).Nullable();
         Map(x => x.CPF).Length(12).Not.Nullable();
-        Map(x => x.RG).Length(8).Not.Nullable();
+        Map(x => x.RG).Length(10).Not.Nullable();
         Map(x => x.PhoneNumber).Length(20).Not.Nullable();
 
         // foreign keys

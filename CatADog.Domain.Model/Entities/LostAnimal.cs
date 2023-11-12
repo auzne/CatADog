@@ -11,7 +11,7 @@ public class LostAnimal : Entity, IAggregateRoot
 
     [Required] public virtual bool Approved { get; set; }
 
-    [Required] public virtual Animal Animal { get; set; }
+    [Required] public virtual string Description { get; set; }
 
-    [Required] public virtual Address Address { get; set; }
+    public virtual Uri? PictureUri { get; set; }
 }

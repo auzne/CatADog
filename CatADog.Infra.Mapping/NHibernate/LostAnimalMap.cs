@@ -1,5 +1,6 @@
 using CatADog.Domain.Model.Entities;
 using FluentNHibernate.Mapping;
+using NHibernate.Type;
 
 namespace CatADog.Infra.Mapping.NHibernate;
 
@@ -14,18 +15,7 @@ public class LostAnimalMap : ClassMap<LostAnimal>
         Map(x => x.Date).Not.Nullable();
         Map(x => x.Found).Not.Nullable();
         Map(x => x.Approved).Not.Nullable();
-
-        // foreign keys
-        References(x => x.Animal)
-            .Column("AnimalId")
-            .Fetch.Join()
-            .Not.LazyLoad()
-            .Not.Nullable();
-
-        References(x => x.Address)
-            .Column("AddressId")
-            .Fetch.Join()
-            .Not.LazyLoad()
-            .Not.Nullable();
+        Map(x => x.Description).Length(500).Not.Nullable();
+        Map(x => x.PictureUri).CustomType<UriType>().Nullable();
     }
 }

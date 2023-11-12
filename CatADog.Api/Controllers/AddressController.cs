@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Validation;
 using CatADog.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate.Exceptions;
 
@@ -11,6 +12,7 @@ namespace CatADog.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class AddressController : ControllerBase
 {
     private readonly AddressService _service;

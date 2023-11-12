@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Validation;
 using CatADog.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate.Exceptions;
 
@@ -11,6 +12,7 @@ namespace CatADog.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class AnimalController : ControllerBase
 {
     private readonly AnimalService _service;
@@ -21,6 +23,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAsync(long id)
     {
         try
@@ -39,6 +42,7 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet("Paged/{page:int}/{itemsPerPage:int}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetPagedAsync(int page, int itemsPerPage)
     {
         try

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Validation;
 using CatADog.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate.Exceptions;
 
@@ -11,6 +12,7 @@ namespace CatADog.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class LostAnimalController : ControllerBase
 {
     private readonly LostAnimalService _service;
@@ -21,6 +23,7 @@ public class LostAnimalController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAsync(long id)
     {
         try
@@ -39,6 +42,7 @@ public class LostAnimalController : ControllerBase
     }
 
     [HttpGet("Approved")]
+    [AllowAnonymous]
     public IActionResult GetApproved()
     {
         try
@@ -54,6 +58,7 @@ public class LostAnimalController : ControllerBase
     }
 
     [HttpGet("Pending")]
+    [AllowAnonymous]
     public IActionResult GetPending()
     {
         try
@@ -69,6 +74,7 @@ public class LostAnimalController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> PostAsync(LostAnimal entity)
     {
         try

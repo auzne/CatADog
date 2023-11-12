@@ -1,22 +1,31 @@
 using System;
 using System.Data.SQLite;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using CatADog.Domain.Model.Entities;
+using CatADog.Domain.Model.Settings;
 using CatADog.Domain.Model.Validation;
 using CatADog.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using NHibernate.Exceptions;
 
 namespace CatADog.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UserController : ControllerBase
 {
+    private readonly AppSettings _appSettings;
     private readonly UserService _service;
 
-    public UserController(UserService service)
+    public UserController(AppSettings appSettings, UserService service)
     {
+        _appSettings = appSettings;
         _service = service;
     }
 
@@ -31,6 +40,26 @@ public class UserController : ControllerBase
                 return NotFound();
 
             return Ok(entity);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
+    }
+
+    [HttpPost("Authenticate")]
+    [AllowAnonymous]
+    public IActionResult Authenticate(string email, string password)
+    {
+        try
+        {
+            var entity = _service.FindByEmailAndPassword(email, password);
+            if (entity == null)
+                return BadRequest();
+
+            var token = GenerateJwtToken(entity);
+
+            return Ok(new { Token = token });
         }
         catch (Exception ex)
         {
@@ -107,5 +136,28 @@ public class UserController : ControllerBase
         {
             return StatusCode(500, ex);
         }
+    }
+
+    private string GenerateJwtToken(User user)
+    {
+        var key = Encoding.UTF8.GetBytes(_appSettings.Key);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                // User claims
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email)
+            }),
+            Expires = DateTime.UtcNow.AddDays(1), // Expiration time
+            Issuer = _appSettings.Issuer,
+            Audience = _appSettings.Audience,
+            SigningCredentials =
+                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 }

@@ -1,14 +1,25 @@
+using System;
+using System.Text;
+using CatADog.Domain.Model.Settings;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Services;
 using CatADog.Domain.Validation;
 using CatADog.Infra.Repositories.NHibernate;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>()
+                  ?? throw new Exception("AppSettings is not defined in any appsettings.json");
+builder.Services.AddSingleton(appSettings);
 
 #region Cors
 
@@ -22,6 +33,23 @@ builder.Services.AddCors(options => options.AddPolicy("AllowAll", corsBuilder.Bu
 #endregion
 
 builder.Services.AddControllers();
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(x =>
+    {
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = appSettings.Issuer,
+            ValidAudience = appSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Key)),
+            ClockSkew = TimeSpan.FromMinutes(5)
+        };
+    });
 
 #region Services
 
@@ -60,6 +88,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

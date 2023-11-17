@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CatADog.Infra.Repositories\CatADog.Infra.Repositories.csproj"/>
+        <ProjectReference Include="..\CatADog.Infra.Starter\CatADog.Infra.Starter.csproj"/>
     </ItemGroup>
 
 

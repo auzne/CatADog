@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using CatADog.Domain.Model.Entities;
+using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Repositories;
 using CatADog.Domain.Validation;
 
@@ -10,28 +13,38 @@ public class LostAnimalService : CrudService<LostAnimal>
 {
     public LostAnimalService(
         IUnitOfWork unitOfWork,
+        IMapper mapper,
         Validator<LostAnimal> validator)
-        : base(unitOfWork, validator)
+        : base(unitOfWork, mapper, validator)
     {
     }
 
-    public IList<LostAnimal> GetApprovedLostAnimal()
+    public Task<LostAnimalListViewModel> GetAsViewModelAsync(long id)
+    {
+        return GetAsViewModelAsync<LostAnimalListViewModel>(id);
+    }
+
+    public IList<LostAnimalListViewModel> GetApprovedLostAnimal()
     {
         var repo = UnitOfWork.GetQueryRepository<LostAnimal>();
 
-        var result = repo.Query
-            .Where(x => x.Approved)
+        var query = repo.Query
+            .Where(x => x.Approved);
+
+        var result = Mapper.ProjectTo<LostAnimalListViewModel>(query)
             .ToList();
 
         return result;
     }
 
-    public IList<LostAnimal> GetPendingLostAnimals()
+    public IList<LostAnimalListViewModel> GetPendingLostAnimals()
     {
         var repo = UnitOfWork.GetQueryRepository<LostAnimal>();
 
-        var result = repo.Query
-            .Where(x => !x.Approved)
+        var query = repo.Query
+            .Where(x => !x.Approved);
+
+        var result = Mapper.ProjectTo<LostAnimalListViewModel>(query)
             .ToList();
 
         return result;

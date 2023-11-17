@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Settings;
 using CatADog.Domain.Model.Validation;
+using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,12 +35,34 @@ public class UserController : ControllerBase
     {
         try
         {
-            var entity = await _service.GetAsync(id);
+            var viewModel = await _service.GetAsViewModelAsync(id);
 
-            if (entity == null)
+            if (viewModel == null)
                 return NotFound();
 
-            return Ok(entity);
+            return Ok(viewModel);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostAsync(UserFormViewModel viewModel)
+    {
+        try
+        {
+            viewModel = await _service.InsertViewModelAsync(viewModel);
+
+            return CreatedAtAction(
+                "Get",
+                new { id = viewModel.Id },
+                viewModel);
+        }
+        catch (ValidatorException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -53,11 +76,11 @@ public class UserController : ControllerBase
     {
         try
         {
-            var entity = _service.FindByEmailAndPassword(email, password);
-            if (entity == null)
-                return BadRequest();
+            var user = _service.FindByEmailAndPassword(email, password);
+            if (user == null)
+                return Ok(new { Token = string.Empty });
 
-            var token = GenerateJwtToken(entity);
+            var token = GenerateJwtToken(user);
 
             return Ok(new { Token = token });
         }
@@ -67,30 +90,8 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> PostAsync(User entity)
-    {
-        try
-        {
-            entity = await _service.InsertAsync(entity);
-
-            return CreatedAtAction(
-                "Get",
-                new { id = entity.Id },
-                entity);
-        }
-        catch (ValidatorException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex);
-        }
-    }
-
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> PutAsync([FromBody] User entity, long id)
+    public async Task<IActionResult> PutAsync([FromBody] UserFormViewModel viewModel, long id)
     {
         try
         {
@@ -98,10 +99,10 @@ public class UserController : ControllerBase
             if (fromDatabase == null)
                 return NotFound();
 
-            entity.Id = fromDatabase.Id;
-            entity = await _service.UpdateAsync(entity);
+            viewModel.Id = fromDatabase.Id;
+            viewModel = await _service.UpdateViewModelAsync(viewModel);
 
-            return Ok(entity);
+            return Ok(viewModel);
         }
         catch (ValidatorException ex)
         {

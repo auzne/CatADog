@@ -5,6 +5,7 @@ using CatADog.Domain.Repositories;
 using CatADog.Domain.Services;
 using CatADog.Domain.Validation;
 using CatADog.Infra.Repositories.NHibernate;
+using CatADog.Infra.Starter;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -54,6 +55,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 #region Services
 
 builder.Services.AddScoped(typeof(Validator<>));
+builder.Services.AddSingleton(AutoMapperHelper.GetMapper());
 builder.Services.AddScoped(typeof(QueryService<>));
 builder.Services.AddScoped(typeof(CrudService<>));
 

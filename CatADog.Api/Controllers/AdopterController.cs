@@ -1,8 +1,8 @@
 using System;
 using System.Data.SQLite;
 using System.Threading.Tasks;
-using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Validation;
+using CatADog.Domain.Model.ViewModels;
 using CatADog.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,12 +27,12 @@ public class AdopterController : ControllerBase
     {
         try
         {
-            var entity = await _service.GetAsync(id);
+            var viewModel = await _service.GetAsViewModelAsync(id);
 
-            if (entity == null)
+            if (viewModel == null)
                 return NotFound();
 
-            return Ok(entity);
+            return Ok(viewModel);
         }
         catch (Exception ex)
         {
@@ -56,16 +56,16 @@ public class AdopterController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(Adopter entity)
+    public async Task<IActionResult> PostAsync(AdopterFormViewModel viewModel)
     {
         try
         {
-            entity = await _service.InsertAsync(entity);
+            viewModel = await _service.InsertViewModelAsync(viewModel);
 
             return CreatedAtAction(
                 "Get",
-                new { id = entity.Id },
-                entity);
+                new { id = viewModel.Id },
+                viewModel);
         }
         catch (ValidatorException ex)
         {
@@ -78,7 +78,7 @@ public class AdopterController : ControllerBase
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> PutAsync([FromBody] Adopter entity, long id)
+    public async Task<IActionResult> PutAsync([FromBody] AdopterFormViewModel viewModel, long id)
     {
         try
         {
@@ -86,10 +86,10 @@ public class AdopterController : ControllerBase
             if (fromDatabase == null)
                 return NotFound();
 
-            entity.Id = fromDatabase.Id;
-            entity = await _service.UpdateAsync(entity);
+            viewModel.Id = fromDatabase.Id;
+            viewModel = await _service.UpdateViewModelAsync(viewModel);
 
-            return Ok(entity);
+            return Ok(viewModel);
         }
         catch (ValidatorException ex)
         {

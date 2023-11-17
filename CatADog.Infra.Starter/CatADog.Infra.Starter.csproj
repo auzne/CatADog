@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>false</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1"/>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <ProjectReference Include="..\CatADog.Domain.Model\CatADog.Domain.Model.csproj"/>
+        <ProjectReference Include="..\CatADog.Infra.Repositories\CatADog.Infra.Repositories.csproj"/>
+    </ItemGroup>
+
+</Project>

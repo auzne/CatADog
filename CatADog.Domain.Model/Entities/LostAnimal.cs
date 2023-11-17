@@ -13,5 +13,5 @@ public class LostAnimal : Entity, IAggregateRoot
 
     [Required] public virtual string Description { get; set; }
 
-    public virtual Uri? PictureUri { get; set; }
+    public virtual string? PictureBase64 { get; set; }
 }

@@ -30,6 +30,5 @@ public class Animal : Entity, IAggregateRoot
 
     [Required] public virtual Dates Dates { get; set; }
 
-
     public virtual Adopter? Adopter { get; set; }
 }

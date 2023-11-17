@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatADog.Api", "CatADog.Api\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatADog.Domain", "CatADog.Domain\CatADog.Domain.csproj", "{47C1279D-96AF-4736-B2DB-CE9BA92B3807}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatADog.Infra.Starter", "CatADog.Infra.Starter\CatADog.Infra.Starter.csproj", "{93624937-CD34-4279-95FB-5033A5AC5C9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{47C1279D-96AF-4736-B2DB-CE9BA92B3807}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47C1279D-96AF-4736-B2DB-CE9BA92B3807}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47C1279D-96AF-4736-B2DB-CE9BA92B3807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93624937-CD34-4279-95FB-5033A5AC5C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93624937-CD34-4279-95FB-5033A5AC5C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93624937-CD34-4279-95FB-5033A5AC5C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93624937-CD34-4279-95FB-5033A5AC5C9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -47,6 +47,12 @@ public class AnimalController : ControllerBase
     {
         try
         {
+            if (itemsPerPage < 1)
+                return BadRequest("\"itemsPerPage\" must be equal or greater than 1");
+
+            if (page > 0)
+                return BadRequest("\"page\" must be equal or greater than 0");
+
             var result = await _service.GetPagedAsync(page, itemsPerPage);
 
             return Ok(result);

@@ -27,7 +27,7 @@ public class AnimalMap : ClassMap<Animal>
         References(x => x.Adopter)
             .Column("AdopterId")
             .Fetch.Join()
-            .Not.LazyLoad()
+            .LazyLoad()
             .Nullable();
     }
 }

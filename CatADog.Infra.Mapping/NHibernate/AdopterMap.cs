@@ -22,7 +22,7 @@ public class AdopterMap : ClassMap<Adopter>
         References(x => x.Address)
             .Column("AddressId")
             .Fetch.Join()
-            .Not.LazyLoad()
+            .LazyLoad()
             .Not.Nullable();
     }
 }

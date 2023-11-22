@@ -63,6 +63,28 @@ public class AnimalController : ControllerBase
         }
     }
 
+    [HttpGet("Available/{page:int}/{itemsPerPage:int}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAvailablePagedAsync(int page, int itemsPerPage)
+    {
+        try
+        {
+            if (itemsPerPage < 1)
+                return BadRequest("\"itemsPerPage\" must be equal or greater than 1");
+
+            if (page > 0)
+                return BadRequest("\"page\" must be equal or greater than 0");
+
+            var result = await _service.GetAvailableForAdoptionPagedAsync(page, itemsPerPage);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> PostAsync(AnimalFormViewModel viewModel)
     {

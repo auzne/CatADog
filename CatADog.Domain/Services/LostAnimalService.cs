@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using CatADog.Domain.Model.Entities;
@@ -24,29 +25,24 @@ public class LostAnimalService : CrudService<LostAnimal>
         return GetAsViewModelAsync<LostAnimalListViewModel>(id);
     }
 
-    public IList<LostAnimalListViewModel> GetApprovedLostAnimal()
+    public async Task<IList<LostAnimalListViewModel>> GetApprovedLostAnimalPagedAsync(int page, int itemsPerPage)
     {
-        var repo = UnitOfWork.GetQueryRepository<LostAnimal>();
-
-        var query = repo.Query
-            .Where(x => x.Approved);
-
-        var result = Mapper.ProjectTo<LostAnimalListViewModel>(query)
-            .ToList();
-
-        return result;
+        return await GetPagedAsViewModelAsync(page, itemsPerPage, x => x.Approved);
     }
 
-    public IList<LostAnimalListViewModel> GetPendingLostAnimals()
+    public async Task<IList<LostAnimalListViewModel>> GetPendingLostAnimalsPagedAsync(int page, int itemsPerPage)
     {
-        var repo = UnitOfWork.GetQueryRepository<LostAnimal>();
+        return await GetPagedAsViewModelAsync(page, itemsPerPage, x => !x.Approved);
+    }
 
-        var query = repo.Query
-            .Where(x => !x.Approved);
+    public Task<IList<LostAnimalListViewModel>> GetPagedAsViewModelAsync(int page, int itemsPerPage)
+    {
+        return GetPagedAsViewModelAsync<LostAnimalListViewModel>(page, itemsPerPage);
+    }
 
-        var result = Mapper.ProjectTo<LostAnimalListViewModel>(query)
-            .ToList();
-
-        return result;
+    public Task<IList<LostAnimalListViewModel>> GetPagedAsViewModelAsync(int page, int itemsPerPage,
+        Expression<Func<LostAnimal, bool>> where)
+    {
+        return GetPagedAsViewModelAsync<LostAnimalListViewModel>(page, itemsPerPage, where);
     }
 }

@@ -41,13 +41,19 @@ public class LostAnimalController : ControllerBase
         }
     }
 
-    [HttpGet("Approved")]
+    [HttpGet("Paged/{page:int}/{itemsPerPage:int}")]
     [AllowAnonymous]
-    public IActionResult GetApproved()
+    public async Task<IActionResult> GetPagedAsync(int page, int itemsPerPage)
     {
         try
         {
-            var result = _service.GetApprovedLostAnimal();
+            if (itemsPerPage < 1)
+                return BadRequest("\"itemsPerPage\" must be equal or greater than 1");
+
+            if (page > 0)
+                return BadRequest("\"page\" must be equal or greater than 0");
+
+            var result = await _service.GetPagedAsViewModelAsync(page, itemsPerPage);
 
             return Ok(result);
         }
@@ -57,13 +63,41 @@ public class LostAnimalController : ControllerBase
         }
     }
 
-    [HttpGet("Pending")]
+    [HttpGet("Approved/{page:int}/{itemsPerPage:int}")]
     [AllowAnonymous]
-    public IActionResult GetPending()
+    public async Task<IActionResult> GetApprovedAsync(int page, int itemsPerPage)
     {
         try
         {
-            var result = _service.GetPendingLostAnimals();
+            if (itemsPerPage < 1)
+                return BadRequest("\"itemsPerPage\" must be equal or greater than 1");
+
+            if (page > 0)
+                return BadRequest("\"page\" must be equal or greater than 0");
+
+            var result = await _service.GetApprovedLostAnimalPagedAsync(page, itemsPerPage);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
+    }
+
+    [HttpGet("Pending/{page:int}/{itemsPerPage:int}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPendingAsync(int page, int itemsPerPage)
+    {
+        try
+        {
+            if (itemsPerPage < 1)
+                return BadRequest("\"itemsPerPage\" must be equal or greater than 1");
+
+            if (page > 0)
+                return BadRequest("\"page\" must be equal or greater than 0");
+
+            var result = await _service.GetPendingLostAnimalsPagedAsync(page, itemsPerPage);
 
             return Ok(result);
         }

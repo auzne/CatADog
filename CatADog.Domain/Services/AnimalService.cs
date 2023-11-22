@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -26,17 +25,9 @@ public class AnimalService : CrudService<Animal>
         return GetAsViewModelAsync<AnimalListViewModel>(id);
     }
 
-    public IList<AnimalListViewModel> GetAvailableForAdoption(int perPage, int offset)
+    public async Task<IList<AnimalListViewModel>> GetAvailableForAdoptionPagedAsync(int page, int itemsPerPage)
     {
-        var repo = UnitOfWork.GetQueryRepository<Animal>();
-
-        var query = repo.Query
-            .Where(x => x.Adopter != null);
-
-        var result = Mapper.ProjectTo<AnimalListViewModel>(query)
-            .ToList();
-
-        return result;
+        return await GetPagedAsViewModelAsync(page, itemsPerPage, x => x.Adopter != null);
     }
 
     public Task<IList<AnimalListViewModel>> GetPagedAsViewModelAsync(int page, int itemsPerPage)

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using CatADog.Domain.Model.Dtos;
 using CatADog.Domain.Model.Entities;
 using CatADog.Domain.Model.Settings;
 using CatADog.Domain.Model.Validation;
@@ -72,11 +73,11 @@ public class UserController : ControllerBase
 
     [HttpPost("Authenticate")]
     [AllowAnonymous]
-    public IActionResult Authenticate(string email, string password)
+    public IActionResult Authenticate(UserAuthenticationDto dto)
     {
         try
         {
-            var user = _service.FindByEmailAndPassword(email, password);
+            var user = _service.FindByEmailAndPassword(dto.Email, dto.Password);
             if (user == null)
                 return Ok(new { Token = string.Empty });
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CatADog.Domain.Model.Dtos;
 
-public class UserAuthenticationDto
+public class ChangePasswordDto
 {
     [Required]
     [EmailAddress]
@@ -12,4 +12,8 @@ public class UserAuthenticationDto
     [Required]
     [PasswordPropertyText]
     public string Password { get; set; }
+
+    [Required]
+    [PasswordPropertyText]
+    public string NewPassword { get; set; }
 }

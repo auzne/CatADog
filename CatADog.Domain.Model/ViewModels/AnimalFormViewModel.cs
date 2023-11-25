@@ -8,7 +8,8 @@ public class AnimalFormViewModel : IViewModel
 {
     public long Id { get; set; }
 
-    [StringLength(45, MinimumLength = 40)] public string? Microchip { get; set; }
+    [StringLength(45, MinimumLength = 40)]
+    public string? Microchip { get; set; }
 
     [Required]
     [StringLength(45, MinimumLength = 2)]
@@ -26,11 +27,14 @@ public class AnimalFormViewModel : IViewModel
     [StringLength(20, MinimumLength = 2)]
     public string Color { get; set; }
 
-    [Required] public Sex Sex { get; set; }
+    [Required]
+    public Sex Sex { get; set; }
 
-    [Required] public bool Ccz { get; set; }
+    [Required]
+    public bool Ccz { get; set; }
 
-    [Required] public Dates Dates { get; set; }
+    [Required]
+    public Dates Dates { get; set; }
 
     public long AdopterId { get; set; }
 }

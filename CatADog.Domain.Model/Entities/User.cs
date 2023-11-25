@@ -5,14 +5,19 @@ namespace CatADog.Domain.Model.Entities;
 public class User : Entity, IAggregateRoot
 {
     [Required]
-    [StringLength(30, MinimumLength = 3)]
+    [StringLength(50, MinimumLength = 3)]
     public virtual string Name { get; set; }
 
     [Required]
-    [StringLength(100, MinimumLength = 3)]
+    [EmailAddress]
     public virtual string Email { get; set; }
 
     [Required]
-    [StringLength(128, MinimumLength = 6)]
-    public virtual string Password { get; set; }
+    public virtual byte[] Password { get; set; }
+
+    [Required]
+    public virtual byte[] Salt { get; set; }
+
+    [Required]
+    public virtual int Iterations { get; set; }
 }

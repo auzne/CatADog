@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Data.SQLite;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -61,6 +62,10 @@ public class UserController : ControllerBase
                 new { id = viewModel.Id },
                 viewModel);
         }
+        catch (ConstraintException ex)
+        {
+            return Conflict(ex.Message);
+        }
         catch (ValidatorException ex)
         {
             return BadRequest(ex.Message);
@@ -84,6 +89,25 @@ public class UserController : ControllerBase
             var token = GenerateJwtToken(user);
 
             return Ok(new { Token = token });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
+    }
+
+    [HttpPost("ChangePassword")]
+    public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+    {
+        try
+        {
+            return await _service.UpdatePassword(dto)
+                ? Ok()
+                : NotFound();
+        }
+        catch (ValidatorException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -142,7 +166,7 @@ public class UserController : ControllerBase
 
     private string GenerateJwtToken(User user)
     {
-        var key = Encoding.UTF8.GetBytes(_appSettings.Key);
+        var key = Encoding.Unicode.GetBytes(_appSettings.Key);
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {

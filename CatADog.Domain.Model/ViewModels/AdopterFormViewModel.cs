@@ -14,7 +14,8 @@ public class AdopterFormViewModel : IViewModel
     [StringLength(50, MinimumLength = 2)]
     public string LastName { get; set; }
 
-    [StringLength(30, MinimumLength = 3)] public string? Profession { get; set; }
+    [StringLength(30, MinimumLength = 3)]
+    public string? Profession { get; set; }
 
     [Required]
     [StringLength(12, MinimumLength = 11)]
@@ -28,5 +29,6 @@ public class AdopterFormViewModel : IViewModel
     [StringLength(20, MinimumLength = 8)]
     public string PhoneNumber { get; set; }
 
-    [Required] public long AddressId { get; set; }
+    [Required]
+    public long AddressId { get; set; }
 }

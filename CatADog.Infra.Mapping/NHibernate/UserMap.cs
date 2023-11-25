@@ -12,7 +12,9 @@ public class UserMap : ClassMap<User>
 
         // fields
         Map(x => x.Name).Length(30).Not.Nullable();
-        Map(x => x.Email).Length(100).Not.Nullable();
-        Map(x => x.Password).Length(128).Not.Nullable();
+        Map(x => x.Email).Length(100).Unique().Not.Nullable();
+        Map(x => x.Password).Not.Nullable();
+        Map(x => x.Salt).Not.Nullable();
+        Map(x => x.Iterations).Not.Nullable();
     }
 }

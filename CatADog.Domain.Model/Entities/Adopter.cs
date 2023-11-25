@@ -13,7 +13,8 @@ public class Adopter : Entity, IAggregateRoot
     [StringLength(50, MinimumLength = 2)]
     public virtual string LastName { get; set; }
 
-    [StringLength(30, MinimumLength = 3)] public virtual string? Profession { get; set; }
+    [StringLength(30, MinimumLength = 3)]
+    public virtual string? Profession { get; set; }
 
     [Required]
     [StringLength(12, MinimumLength = 11)]
@@ -27,7 +28,9 @@ public class Adopter : Entity, IAggregateRoot
     [StringLength(20, MinimumLength = 8)]
     public virtual string PhoneNumber { get; set; }
 
-    [Required] public virtual Address Address { get; set; }
+    [Required]
+    public virtual Address Address { get; set; }
 
-    [JsonIgnore] public virtual string FullName => $"{FirstName} {LastName}";
+    [JsonIgnore]
+    public virtual string FullName => $"{FirstName} {LastName}";
 }

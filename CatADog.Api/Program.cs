@@ -35,7 +35,6 @@ builder.Services.AddCors(options => options.AddPolicy("AllowAll", corsBuilder.Bu
 
 builder.Services.AddControllers();
 
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
     {
@@ -47,7 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = appSettings.Issuer,
             ValidAudience = appSettings.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Key)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(appSettings.Key)),
             ClockSkew = TimeSpan.FromMinutes(5)
         };
     });
@@ -87,6 +86,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(config =>
         config.SwaggerEndpoint("/swagger/v1/swagger.json", "CatADog API V1"));
 }
+
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
